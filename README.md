@@ -7,26 +7,6 @@ Use this framework if you want to overcome some of Entity Frameworks limitations
 * Persist complex types as JSON/XML
 * Persist lists as delimited strings
 
-# Model Classes
-Your model classes must contain backing properties for each user type property. Unfortunately, this is just a limitation of
-entity framework, but don't worry, these properties can be marked as private.
-
-```cshpart
- public class Customer
- {
-    public CustomerStatus Status { get; set; }
-    public string Secret { get; set; }
-    public CustomerPreferences Preferences { get; set; }
-
-    #region Backing Fields
-
-    private string StatusBacking { get; set; }
-    private string SecretBacking { get; set; }
-    private string PreferencesBacking { get; set; }
-
-    #endregion Backing Fields
- }
-```
 # Configuration
 To enable user types, you must add the following to the constructor of your DbContext.
 ```csharp
@@ -59,6 +39,26 @@ public static class CryptoUserTypeExtension
       return mapper.UserTypeProperty<TEntity, TValue, CryptoUserType<TEntity, TValue>>(expression, backingPropertyName);
    }
 }
+```
+# Model Classes
+Your model classes must contain backing properties for each user type property. Unfortunately, this is just a limitation of
+entity framework, but don't worry, these properties can be marked as private.
+
+```cshpart
+ public class Customer
+ {
+    public CustomerStatus Status { get; set; }
+    public string Secret { get; set; }
+    public CustomerPreferences Preferences { get; set; }
+
+    #region Backing Fields
+
+    private string StatusBacking { get; set; }
+    private string SecretBacking { get; set; }
+    private string PreferencesBacking { get; set; }
+
+    #endregion Backing Fields
+ }
 ```
 # Implementation
 To create a user type, your class must implement the IUserType interface.

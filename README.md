@@ -1,6 +1,4 @@
 # EntityFramework.UserTypes
-User types implementation for Entity Framework
-
 Use this framework if you want to overcome some of Entity Frameworks limitations without leaking too many persistence implementation details into your domain model. This implementation is similar to NHibernate's user types capability. It allows you to create custom types by giving you control over how properties are persisted and materialized. 
 
 # Usage Scenarios

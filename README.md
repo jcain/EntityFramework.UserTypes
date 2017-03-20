@@ -1,8 +1,13 @@
 # EntityFramework.UserTypes
 User types implementation for Entity Framework
 
-This implementation is similar to NHibernate's user types capability. It allows you to create custom types by giving you control 
-over how properties are persisted and materialized.
+Use this framework if you want to overcome some of Entity Frameworks limitations without leaking too many persistence implementation details into your domain model. This implementation is similar to NHibernate's user types capability. It allows you to create custom types by giving you control over how properties are persisted and materialized. 
+
+# Usage Scenarios
+* Column level encryption
+* Persist enums as strings
+* Persist complex types as JSON/XML
+* Persist lists as a delimited string
 
 # Model Classes
 Your model classes must contain backing properties for each user type property. Unfortunately, this is just a limitation of

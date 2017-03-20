@@ -7,7 +7,7 @@ Use this framework if you want to overcome some of Entity Frameworks limitations
 * Column level encryption
 * Persist enums as strings
 * Persist complex types as JSON/XML
-* Persist lists as a delimited string
+* Persist lists as delimited strings
 
 # Model Classes
 Your model classes must contain backing properties for each user type property. Unfortunately, this is just a limitation of

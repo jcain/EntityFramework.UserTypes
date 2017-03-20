@@ -57,6 +57,38 @@ public static class CryptoUserTypeExtension
    }
 }
 ```
+# Implementation
+To create a user type, your class must implement the IUserType interface.
+```csharp
+public interface IUserType
+{
+   void OnObjectMaterialized(object entity);
+   void OnSavingChanges(object entity);
+}
+```
+Or your class must derive from the UserTypeBase class. The UserTypeBase class handles most of the work for you and only requires that you implement 2 abstract methods.
+```csharp
+public class CryptoUserType<TEntity, TValue> : UserTypeBase<TEntity, TValue> where TEntity : class
+{
+   public CryptoUserType(string propertyName, string backingPropertyName)
+      : base(propertyName, backingPropertyName)
+   {
+   }
+
+   protected override string GetBackingValue(object targetValue)
+   {
+      var cipher = Encryption.EncryptRijndael(targetValue.ToString());
+      return Convert.ToBase64String(cipher);
+   }
+
+   protected override object GetTargetValue(string backingValue)
+   {
+      byte[] cipher = Convert.FromBase64String(backingValue);
+      string targetValue = Encryption.DecryptRijndael(cipher);
+      return targetValue;
+   }
+}
+```
 # Examples
 Column-level encryption. 
 ```csharp

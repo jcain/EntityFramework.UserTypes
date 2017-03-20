@@ -24,25 +24,16 @@
       {
       }
 
-      public override void OnObjectMaterialized(object entity)
+      protected override string GetBackingValue(object targetValue)
       {
-         string json = GetBackingValue(entity);
-         if (!string.IsNullOrEmpty(json))
-         {
-            object targetValue = JsonConvert.DeserializeObject(json, typeof(TValue));
-            SetTargetValue(entity, targetValue);
-         }
+         var json = JsonConvert.SerializeObject(targetValue);
+         return json;
       }
 
-      public override void OnSavingChanges(object entity)
+      protected override object GetTargetValue(string backingValue)
       {
-         string json = null;
-         object value = GetTargetValue(entity);
-         if (value != null)
-         {
-            json = JsonConvert.SerializeObject(value);
-         }
-         SetBackingValue(entity, json);
+         object targetValue = JsonConvert.DeserializeObject(backingValue, typeof(TValue));
+         return targetValue;
       }
    }
 }

@@ -27,26 +27,14 @@
          }
       }
 
-      public override void OnObjectMaterialized(object entity)
+      protected override string GetBackingValue(object targetValue)
       {
-         var backingValue = GetBackingValue(entity);
-         if (!string.IsNullOrEmpty(backingValue))
-         {
-            object targetValue = Enum.Parse(typeof(TValue), backingValue);
-            SetTargetValue(entity, targetValue);
-         }
+         return targetValue.ToString();
       }
 
-      public override void OnSavingChanges(object entity)
+      protected override object GetTargetValue(string backingValue)
       {
-         string backingValue = null;
-         object targetValue = GetTargetValue(entity);
-         if (targetValue != null)
-         {
-            backingValue = targetValue.ToString();
-         }
-
-         SetBackingValue(entity, backingValue);
+         return Enum.Parse(typeof(TValue), backingValue);
       }
    }
 }

@@ -17,28 +17,29 @@
          backingPropertySetter = ExpressionHelper.GetPropertySetter<TEntity, string>(backingPropertyName).Compile();
       }
 
-      public abstract void OnObjectMaterialized(object entity);
+      protected abstract object GetTargetValue(string backingValue);
 
-      public abstract void OnSavingChanges(object entity);
+      protected abstract string GetBackingValue(object targetValue);
 
-      protected string GetBackingValue(object entity)
+      public void OnObjectMaterialized(object entity)
       {
-         return (string)backingPropertyGetter.DynamicInvoke(entity);
+         var backingValue = (string)backingPropertyGetter.DynamicInvoke(entity);
+         if (!string.IsNullOrEmpty(backingValue))
+         {
+            var targetValue = GetTargetValue(backingValue);
+            propertySetter.DynamicInvoke(entity, targetValue);
+         }
       }
 
-      protected object GetTargetValue(object entity)
+      public void OnSavingChanges(object entity)
       {
-         return propertyGetter.DynamicInvoke(entity);
-      }
-
-      protected void SetBackingValue(object entity, string value)
-      {
-         backingPropertySetter.DynamicInvoke(entity, value);
-      }
-
-      protected void SetTargetValue(object entity, object value)
-      {
-         propertySetter.DynamicInvoke(entity, value);
+         string backingValue = null;
+         object value = propertyGetter.DynamicInvoke(entity);
+         if (value != null)
+         {
+            backingValue = GetBackingValue(value);
+         }
+         backingPropertySetter.DynamicInvoke(entity, backingValue);
       }
    }
 }

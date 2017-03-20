@@ -23,27 +23,17 @@
       {
       }
 
-      public override void OnObjectMaterialized(object entity)
+      protected override string GetBackingValue(object targetValue)
       {
-         var backingValue = GetBackingValue(entity);
-         if (!string.IsNullOrEmpty(backingValue))
-         {
-            byte[] cipher = Convert.FromBase64String(backingValue);
-            string value = Encryption.DecryptRijndael(cipher);
-            SetTargetValue(entity, value);
-         }
+         var cipher = Encryption.EncryptRijndael(targetValue.ToString());
+         return Convert.ToBase64String(cipher);
       }
 
-      public override void OnSavingChanges(object entity)
+      protected override object GetTargetValue(string backingValue)
       {
-         string backingValue = null;
-         object value = GetTargetValue(entity);
-         if (value != null)
-         {
-            var cipher = Encryption.EncryptRijndael(value.ToString());
-            backingValue = Convert.ToBase64String(cipher);
-         }
-         SetBackingValue(entity, backingValue);
+         byte[] cipher = Convert.FromBase64String(backingValue);
+         string targetValue = Encryption.DecryptRijndael(cipher);
+         return targetValue;
       }
    }
 }

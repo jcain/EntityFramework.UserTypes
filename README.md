@@ -1,5 +1,5 @@
 # EntityFramework.UserTypes
-Use this framework if you want to overcome some of Entity Frameworks limitations without leaking too many persistence implementation details into your domain model. This implementation is similar to NHibernate's user types capability. It allows you to create custom types by giving you control over how properties are persisted and materialized. 
+Use this framework if you want to overcome some of Entity Framework's limitations without leaking too many persistence implementation details into your domain model. This implementation is similar to NHibernate's user types capability. It allows you to create custom types by giving you control over how properties are persisted and materialized. 
 
 Note: Only use this feature for properties that you **DO NOT** need to filter by. The public properties of your model classes are not actually mapped so EF will not know how to generate a WHERE clause for those properties.
 
